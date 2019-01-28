@@ -11,7 +11,7 @@ struct bytedata
 
 int main(int argc, char const *argv[])
 {
-	bytedata dt = {0};
+  bytedata dt = {0};
   printf("amplitude before: bit_2(%d)\n", dt.bit_2);
   dt.bit_2 = 10; // 超出范围，最大现实2
   printf("amplitude after: bit_2(%d)\n", dt.bit_2);
