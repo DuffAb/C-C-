@@ -18,7 +18,9 @@ struct bytedata
 位段数据的引用:
 与结构体成员中的数据引用一样，但应注意位段的最大取值范围不要超出二进制位数定的范围，否则超出部分会丢弃。
 [例子源码](https://github.com/DuffAb/funny_shit/blob/master/exsample/1/main.cpp)
-###### 2.编写strcpy函数,已知strcpy函数的原型是char * strcpy(char * strDest, const char * strSrc);	其中strDest是目的字符串，strSrc是源字符串。不调用C++/C的字符串库函数，请编写函数 strcpy
+
+###### 2.编写类String的构造函数、析构函数和赋值函数
+[直接例子源码](https://github.com/DuffAb/funny_shit/blob/master/exsample/1/main.cpp)
 
 **注意：**
 1. 一个位段必须存储在同一存储单元（即字）之中，不能跨两个单元。如果其单元空间不够，则剩余空间不用，从下一个单元起存放该位段。
