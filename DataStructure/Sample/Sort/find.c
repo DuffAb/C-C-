@@ -13,15 +13,15 @@ size_t line_find (int data[], size_t size, int key) {
 }
 
 /* 递归二分查找 */
-static size_t recu_find (int data[], int left, int right, int key) {
+static size_t recursive_find (int data[], int left, int right, int key) {
 	if (left <= right) {
 		int mid = (left + right) / 2;
 
 		if (key < data[mid])
-			return recu_find (data, left, mid - 1, key);
+			return recursive_find (data, left, mid - 1, key);
 		else
 		if (data[mid] < key)
-			return recu_find (data, mid + 1, right, key);
+			return recursive_find (data, mid + 1, right, key);
 		else
 			return mid;
 	}
