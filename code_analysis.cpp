@@ -24,30 +24,26 @@
 
 using namespace std;
 // 1.分析下面代码的输出结果，i++ 以及 ++i, 还有运算顺序
+#define product(x) (x*x)
 void analysis_i_plus_plus()
 {
-	int i = 1;
-	int j = 2;
+	int i = 1, j = 2;
 	int k = i+++j;
-	printf("i+++j(%d)\n", k);
-	std::cout << k << std::endl;
-	i = 1;
-	j = 2;
-	k = (i++) + j;
-	printf("(i++)+j(%d)\n", k);
-	std::cout << k << std::endl;
-	i = 1;
-	j = 2;
-	k = i + (++j);
-	printf("i+(++j)(%d)\n", k);
-	std::cout << k << std::endl;
-	i = 1;
-	j = 2;
-	k = (++i) + j;
-	printf("(++i)+j(%d)\n", k);
-	std::cout << k << std::endl;
+	std::cout << "i+++j = " << k << std::endl;
+	
+	k = product(i++);// 先整体运算完，i再自增2次
+	std::cout << "product(i++) = " << k << std::endl;
+	k = product(++i);// 先自增2次再运算
+	std::cout << "product(i++) = " << k << std::endl;
+
+	i = 1, j = 2;
+	std::cout << boolalpha << !i&&j++ << std::endl;
 }
-// 运行结果：3 3 4 4 分析：根据输出，
+// 运行结果：i+++j= 3 、(i++)+j = 3 、i+(++j) = 4 、(++i)+j = 4 
+// 分析：根据输出，i+++j 从左向右运算，++运算符优先级高于+运算符。 i++:先把i值返回再自增。 ++i:先自增再把i值返回
+
+
+// 2
 
 int main(){
 	int action;
