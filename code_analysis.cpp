@@ -51,7 +51,7 @@ void analysis_i_plus_plus()
 
 int main(){
 	int action;
-	scanf("%d", &action)
+	scanf("%d", &action);
 	while (getchar() != '\n' && getchar() != EOF);
 	switch (action)
 	{
