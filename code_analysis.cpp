@@ -32,7 +32,7 @@ void analysis_i_plus_plus()
 	int k = i+++j;
 	// i+++j 从左向右运算，++运算符优先级高于+运算符。 i++:先把i值返回再自增。 ++i:先自增再把i值返回
 	std::cout << "i+++j = " << k << std::endl;// 运行结果：i+++j = 3
-	
+
 	// 2.宏定义
 	i = 3;
 	k = product(i++);// 先整体运算完，i再自增2次
@@ -42,7 +42,7 @@ void analysis_i_plus_plus()
 
 	// 3.逻辑运算符的运算
 	i = 1, j = 2;
-	std::cout << boolalpha << (!i&&j++) << std::endl;// 运行结果：false 
+	std::cout << boolalpha << (!i&&j++) << std::endl;// 运行结果：false
 
 	// 4.类型转换，这个例子中是 int 转 unsigned int
 	unsigned int a4 = 6;
@@ -50,10 +50,10 @@ void analysis_i_plus_plus()
 	(a4 + b4 > 6)?puts("> 6") :puts("<= 6");// 运行结果：> 6
 	// 在32位机上，unsigned int 最大可表示2^32 - 1，int最大可表示2^31-1，这样int就转为了unsigned int，
 	// 由于b4<0，即b4的最高位符号位是1，转为unsigned int后最高为不再是符号位，而是一个最高位的正数，于是两者相加就会是一个很大的正数了
-	
+
 
 }
-// 运行结果：i+++j = 3、product(i++) = 6、product(i++) = 36、false 
+// 运行结果：i+++j = 3、product(i++) = 6、product(i++) = 36、false
 // 分析：
 
 
@@ -96,7 +96,7 @@ void analysis_str()
 // 4.实现一个函数，把一个字符串中的字符从小写转为大写
 void analysis_upper_case(const char * src, char * dest)
 {
-	// int *p = NULL;// sizeof(p) = 4 (32-bit) | sizeof(p) = 8 (64-bit) 
+	// int *p = NULL;// sizeof(p) = 4 (32-bit) | sizeof(p) = 8 (64-bit)
 	// printf("%d %d %d %d\n", sizeof(p), sizeof(src), sizeof(src[0]), sizeof(src)/ sizeof(src[0]));
 	size_t len;
 	len = strlen(src);
@@ -149,7 +149,7 @@ void analysis_array_pointer_and_pointer_array()
  	for (int i = 0; i < 3; ++i)
  	{
  		printf("{%d, %d, %d, %d}\n", array_pointer[0][0], array_pointer[0][1], array_pointer[0][2], array_pointer[0][3]);
- 		array_pointer++;          //该语句执行过后，也就是p=p+1;p跨过行a[0][]指向了行a[1][]	
+ 		array_pointer++;          //该语句执行过后，也就是p=p+1;p跨过行a[0][]指向了行a[1][]
  	}
  	// 所以数组指针也称指向一维数组的指针，亦称行指针
 
@@ -178,13 +178,96 @@ void analysis_array_pointer_and_pointer_array()
 	// 优先级：()>[]>*
 }
 
+//7.不重复地输出升序数组中的元素
+void analysis_no_repeat_output_array(char[] arr, int len){
+	if (len < 1) {
+		return;
+	}
+	else if (len == 1) {
+		printf("%s\n", arr[0]);
+	}
+	else {
+		for (size_t i = 0; i < len; i++) {
+			if (arr[i] != arr[i + 1]) {
+				printf("%c ", arr[i]);
+			}
+			i++;
+		}
+	}
+}
+
+// 8.将长型转换为字符串
+char * analysis_ltoa(long value) {
+	long dloop = 1;
+	int len = 1;
+	while (!(value / dloop < 10)) {
+		dloop *= 10;
+		++len;
+	}
+
+	char* str = (char*)malloc(len * sizeof(char));
+	for (int i = 0; i < len; ++i)
+	{
+		str[i] = value / dloop + '0';
+		value = value % dloop;
+		dloop /= 10;
+	}
+	str[len] = '\0';
+
+	return   str;
+}
+
+// 9.输入一个字符串，输出长型整数
+long analysis_atol(const char* str) {
+	long result = 0;
+	long loop = 1;
+	char c = *str;
+	while (c != '\0')
+	{
+		if ('0' <= c && c <= '9')
+		{
+			result = result * 10 + c - '0';
+		}
+		str++;
+		c = *str;
+	}
+	return result;
+}
+
+// 10.
+void analysis_10(){
+	int a[5]={1,2,3,4,5};
+   int *ptr=(int *)(&a+1);
+   printf("%d,%d",*(a+1),*(ptr-1)); // 2 , 5
+}
+// *(a+1)就是a[1]，*(ptr-1)就是a[4], 执行结果是2, 5。&a+1不是首地址+1，系统会认为加一个a数组的偏移，是偏移了一个数组的大小(本例是5个int)。
+// int *ptr=(int *)(&a+1); 则ptr实际是&(a[5]),也就是a+5
+// 原因如下：
+// &a是数组指针，其类型为 int (*)[5]; 而指针加1要根据指针类型加上一定的值，不同类型的指针+1之后增加的大小不同;
+// a是长度为5的int数组指针，所以要加 5*sizeof(int)。所以ptr实际是a[5]。但是ptr与(&a+1)类型是不一样的(这点很重要)，
+// 所以prt-1只会减去sizeof(int*)。a,&a的地址是一样的，但意思不一样，a是数组首地址，也就是a[0]的地址，&a是对象(数组)首地址，
+// a+1是数组下一元素的地址，即a[1],&a+1是下一个对象的地址，即a[5]。
 
 
+// 11.请写一个C函数，若处理器是BigEndian的，则返回 0；若是LittleEndian的，则返回 1
+int analysis_11_checkCPU(){
+	union check{
+		int big;
+		char little;
+	}c;
+	c.big = 1;
+	return (c.little == 1);
+}
 
-
-
-
-
+// 12. 统计一个数的二进制中1的个数
+int analysis_12_count_binary_1(int value){
+	int count_v = 0;
+	while(value){
+		count_v ++;
+		value = value & (value - 1);
+	}
+	return count_v;
+}
 
 
 int main(){
@@ -211,6 +294,13 @@ int main(){
 			free(dest);
 		}
 		case 6: analysis_array_pointer_and_pointer_array(); break;
+		case 7: {
+			const char* arr = "abbccddeef";
+			analysis_no_repeat_output_array((char*)arr, 10);
+			break;
+		}
+		case 8: analysis_ltoa(1234560789);	 break;
+		case 9: analysis_atol(123-.0o=-456); break;
 	}
 	return 0;
 }

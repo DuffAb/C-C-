@@ -15,7 +15,7 @@
  * +------+    +------+           +------+
  */
 #include <stdlib.h>
-#include "ls.h"
+#include "dlist.h"
 
 /* 创建节点 */
 static LIST_NODE* create_node (int data, LIST_NODE* prev,	LIST_NODE* next) {

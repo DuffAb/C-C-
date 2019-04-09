@@ -13,7 +13,7 @@
  * +------+    +------+           +------+
  */
 #include <stdlib.h>
-#include "ql.h"
+#include "lqueue.h"
 
 /* 创建节点 */
 static QUEUE_NODE* create_node (int data) {

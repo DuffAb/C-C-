@@ -1,7 +1,7 @@
 /* 基于链表的队列 */
 
-#ifndef _QL_H
-#define _QL_H
+#ifndef _L_QUEUE_H
+#define _L_QUEUE_H
 
 #include <sys/types.h>
 #include <stdbool.h>
@@ -39,4 +39,4 @@ int queue_front (QUEUE* queue);
 /* 大小 */
 size_t queue_size (QUEUE* queue);
 
-#endif /* _QL_H */
+#endif /* _L_QUEUE_H */

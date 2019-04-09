@@ -1,7 +1,7 @@
 /* 双向线性链表 */
 
 #include <stdio.h>
-#include "ls.h"
+#include "dlist.h"
 
 /* 测试用例 */
 int main (void) {

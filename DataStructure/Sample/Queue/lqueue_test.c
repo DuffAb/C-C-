@@ -1,7 +1,7 @@
 /* 基于链表的队列 */
 
 #include <stdio.h>
-#include "ql.h"
+#include "lqueue.h"
 
 /* 测试用例 */
 int main (void) {

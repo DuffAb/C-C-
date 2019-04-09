@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "bt.h"
+#include "../Queue/lqueue.h"
 
 /* 创建节点 */
 static BSTREE_NODE* create_node (int data) {
@@ -58,7 +59,7 @@ static BSTREE_NODE** find (int data, BSTREE_NODE** root) {
 	if (data < (*root)->data)
 		return find (data, &(*root)->left);
 
-	if ((*root)->data < data)
+	if (data > (*root)->data)
 		return find (data, &(*root)->right);
 
 	return root;
@@ -74,11 +75,30 @@ static void clear (BSTREE_NODE** root) {
 	}
 }
 
-static void travel (BSTREE_NODE* root) {
+/* 前序遍历 D-L-R */
+static void preorder_travel (BSTREE_NODE* root) {
 	if (root) {
-		travel (root->left);
 		printf ("%d ", root->data);
-		travel (root->right);
+		preorder_travel (root->left);
+		preorder_travel (root->right);
+	}
+}
+
+/* 中序遍历 L-D-R */
+static void inorder_travel (BSTREE_NODE* root) {
+	if (root) {
+		inorder_travel (root->left);
+		printf ("%d ", root->data);
+		inorder_travel (root->right);
+	}
+}
+
+/* 后序遍历 L-R-D */
+static void postorder_travel (BSTREE_NODE* root) {
+	if (root) {
+		inorder_travel (root->left);
+		inorder_travel (root->right);
+		printf ("%d ", root->data);
 	}
 }
 
@@ -91,6 +111,22 @@ static size_t height (BSTREE_NODE* root) {
 	}
 
 	return 0;
+}
+
+static size_t is_balance(BSTREE_NODE* root){
+	if (!root) {
+		return 0;
+	}
+
+	size_t left = is_balance(root->left);
+	size_t right = is_balance(root->right);
+
+	if (left >= 0 && right >= 0 && left -right <= 1 || right - left <= 1) {
+		return (right > left) ? (right + 1) : (left + 1);
+	}
+	else{
+		return -1;
+	}
 }
 
 /* ------------------------------------------------------------------ */
@@ -155,10 +191,42 @@ bool bstree_exist (BSTREE* bstree, int data) {
 	return *find (data, &bstree->root) != NULL;
 }
 
-/* 中序遍历 */
-void bstree_travel (BSTREE* bstree) {
-	travel (bstree->root);
+/* 前序遍历 D-L-R */
+void bstree_preorder_travel (BSTREE* bstree) {
+	preorder_travel (bstree->root);
 	printf ("\n");
+}
+
+/* 中序遍历 L-D-R*/
+void bstree_inorder_travel (BSTREE* bstree) {
+	inorder_travel (bstree->root);
+	printf ("\n");
+}
+
+/* 后序遍历 L-R-D */
+void bstree_postorder_travel (BSTREE* bstree) {
+	postorder_travel (bstree->root);
+	printf ("\n");
+}
+
+/* 广度优先遍历 */
+void bstree_breadth_first_travel(BSTREE* bstree){
+	BSTREE_NODE* root;
+	QUEUE queue;
+	queue_init (&queue);
+	root = bstree->root;
+	queue_push (&queue, root);
+
+	while (queue_empty(&queue)) {
+		printf ("%d ", queue_pop(&queue));
+		if (root->left) {
+			queue_push (&queue, root->left->data);
+		}
+		if (root->right) {
+			queue_push (&queue, root->right->data);
+		}
+		root = queue_front(&queue);
+	}
 }
 
 /* 大小 */
@@ -169,4 +237,11 @@ size_t bstree_size (BSTREE* bstree) {
 /* 高度 */
 size_t bstree_height (BSTREE* bstree) {
 	return height (bstree->root);
+}
+
+/* 是否平衡 平衡二叉树（Balanced Binary Tree）又被称为AVL树（有别于AVL算法）， *
+ * 且具有以下性质：它是一 棵空树或它的左右两个子树的高度差的绝对值不超过1，并且  *
+ * 左右两个子树都是一棵平衡二叉树。*/
+bool bstree_is_balance (BSTREE* bstree){
+	return is_balance(bstree->root) != -1 ? true : false ;
 }

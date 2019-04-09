@@ -43,13 +43,25 @@ void bstree_update (BSTREE* bstree, int old, int new);
 /* 判断是否存在 */
 bool bstree_exist (BSTREE* bstree, int data);
 
-/* 中序遍历 */
-void bstree_travel (BSTREE* bstree);
+/* 深度优先遍历 前序遍历 D-L-R */
+void bstree_preorder_travel (BSTREE* bstree);
+
+/* 深度优先遍历 中序遍历 L-D-R*/
+void bstree_inorder_travel (BSTREE* bstree);
+
+/* 深度优先遍历 后序遍历 L-R-D */
+void bstree_postorder_travel (BSTREE* bstree);
+
+/* 广度优先遍历 */
+void bstree_breadth_first_travel(BSTREE* bstree);
 
 /* 大小 */
 size_t bstree_size (BSTREE* bstree);
 
 /* 高度 */
 size_t bstree_height (BSTREE* bstree);
+
+/* 是否平衡 */
+bool bstree_is_balance (BSTREE* bstree);
 
 #endif /* _BT_H */
